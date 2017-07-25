@@ -4,14 +4,14 @@ with open('README.md') as f:
     readme = f.read()
 
 setup(
-    version='1.0.0',
-    name='EvtFuelSDK',
+    version='0.1.2',
+    name='EventableFuelSDK',
     description='ExactTarget Fuel SDK for Python, modified for Eventable',
     long_description=readme,
     author='Eventable',
     author_email='will@eventable.com',
     py_modules=['ET_Client'],
-    packages=['FuelSDK'],
+    packages=['EventableFuelSDK'],
     url='https://github.com/eventable/FuelSDK-Python',
     license='MIT',
     install_requires=[
