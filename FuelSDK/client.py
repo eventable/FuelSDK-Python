@@ -117,16 +117,17 @@ class ET_Client(object):
             r = requests.post(self.auth_url, data=json.dumps(payload), headers=headers)
 
             tokenResponse = r.json()
-            print tokenResponse
 
-            self.authToken = tokenResponse['accessToken']
-            self.authTokenExpiration = time.time() + tokenResponse['expiresIn']
-            self.internalAuthToken = tokenResponse['legacyToken']
-            if 'refreshToken' in tokenResponse:
-                self.refreshKey = tokenResponse['refreshToken']
+            if 'accessToken' in tokenResponse:
+                self.authToken = tokenResponse['accessToken']
+                self.authTokenExpiration = time.time() + tokenResponse['expiresIn']
+                self.internalAuthToken = tokenResponse['legacyToken']
+                if 'refreshToken' in tokenResponse:
+                    self.refreshKey = tokenResponse['refreshToken']
+            else:
+                raise Exception(tokenResponse['message'] + ". Invalid refreshToken.")
 
             self.build_soap_client()
-            pass
         else:
             self.refresh_token()
 
