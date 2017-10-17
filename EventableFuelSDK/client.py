@@ -101,6 +101,9 @@ class ET_Client(object):
 
         self.wsdl_file_url = self.load_wsdl(wsdl_server_url, wsdl_file_local_location, get_server_wsdl)
 
+        if params is not None and "refreshKey" in params:
+            self.refreshKey = params['refreshKey']
+
         # get the JWT from the params if passed in...or go to the server to get it
         if(params is not None and 'jwt' in params):
             decodedJWT = jwt.decode(params['jwt'], self.appsignature)
@@ -192,7 +195,7 @@ class ET_Client(object):
             if (self.authToken is None):
                 payload = {'clientId': self.client_id, 'clientSecret': self.client_secret, 'accessType': 'offline'}
             else:
-                payload = {'clientId': self.client_id, 'clientSecret': self.client_secret, 'refreshToken': self.refreshKey, 'accessType': 'offline', 'scope': 'cas:' + self.internalAuthToken}
+                payload = {'clientId': self.client_id, 'clientSecret': self.client_secret, 'accessType': 'offline', 'scope': 'cas:' + self.internalAuthToken}
             if self.refreshKey:
                 payload['refreshToken'] = self.refreshKey
 
