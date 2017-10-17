@@ -105,7 +105,7 @@ class ET_Client(object):
             self.refreshKey = params['refreshKey']
 
         # get the JWT from the params if passed in...or go to the server to get it
-        if(params is not None and 'jwt' in params):
+        if params is not None and 'jwt' in params:
             decodedJWT = jwt.decode(params['jwt'], self.appsignature)
             self.refreshKey = decodedJWT['request']['rest']['refreshToken']
 
@@ -192,10 +192,9 @@ class ET_Client(object):
         # If we don't already have a token or the token expires within 5 min(300 seconds), get one
         if (force_refresh or self.authToken is None or (self.authTokenExpiration is not None and time.time() + 300 > self.authTokenExpiration)):
             headers = {'content-type': 'application/json'}
-            if (self.authToken is None):
-                payload = {'clientId': self.client_id, 'clientSecret': self.client_secret, 'accessType': 'offline'}
-            else:
-                payload = {'clientId': self.client_id, 'clientSecret': self.client_secret, 'accessType': 'offline', 'scope': 'cas:' + self.internalAuthToken}
+            payload = {'clientId': self.client_id, 'clientSecret': self.client_secret, 'accessType': 'offline'}
+            if self.authToken is not None:
+                payload['scope'] = 'cas:' + self.internalAuthToken
             if self.refreshKey:
                 payload['refreshToken'] = self.refreshKey
 
