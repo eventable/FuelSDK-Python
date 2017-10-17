@@ -4,7 +4,7 @@ with open('README.md') as f:
     readme = f.read()
 
 setup(
-    version='0.1.3',
+    version='0.1.4',
     name='EventableFuelSDK',
     description='ExactTarget Fuel SDK for Python, modified for Eventable',
     long_description=readme,
